@@ -7,7 +7,18 @@ import path from 'path';
 export default defineConfig({
   plugins: [
     react(),
-    compression({ algorithm: 'brotliCompress' }), // Compress assets
+    compression({
+      algorithm: 'brotliCompress',
+      ext: '.br',
+      threshold: 10240, // Only compress files >10kb
+      deleteOriginFile: false, // Keep original files alongside compressed ones
+    }),
+    compression({
+      algorithm: 'gzip',
+      ext: '.gz',
+      threshold: 10240,
+      deleteOriginFile: false,
+    }),
   ],
   build: {
     rollupOptions: {
@@ -23,6 +34,7 @@ export default defineConfig({
     },
     outDir: 'dist',
     emptyOutDir: true,
+    copyPublicDir: true,
     cssCodeSplit: true,
     sourcemap: false,
     minify: 'terser',
@@ -52,7 +64,6 @@ export default defineConfig({
       'lucide-react',
       '@emailjs/browser',
     ],
-    exclude: [],
   },
   server: {
     host: true,
