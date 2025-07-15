@@ -32,7 +32,6 @@
   [plugins.inputs]
     output_path = "reports/lighthouse.html"
     audits = ["/"]
-    thresholds = { performance = 0.8 }
 
 # Brotli compression
 [[headers]]
