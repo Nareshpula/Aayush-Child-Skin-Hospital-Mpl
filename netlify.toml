@@ -6,45 +6,15 @@
 [build.environment]
   NODE_VERSION = "20.11.0"
   NPM_VERSION = "10.2.4"
-  NETLIFY_USE_YARN = "false"
   NODE_ENV = "development"
+  NETLIFY_USE_YARN = "false"
 
-[build.processing]
-  skip_processing = false
-
-[build.processing.css]
-  bundle = true
-  minify = true
-
-[build.processing.js]
-  bundle = true
-  minify = true
-
-[build.processing.html]
-  pretty_urls = true
-
-[build.processing.images]
-  compress = true
-
-# Preload critical assets with corrected Lighthouse plugin config
 [[plugins]]
   package = "@netlify/plugin-lighthouse"
   [plugins.inputs]
     output_path = "reports/lighthouse.html"
     audits = ["/"]
 
-# Brotli compression
-[[headers]]
-  for = "*.js"
-  [headers.values]
-    Content-Encoding = "br"
-
-[[headers]]
-  for = "*.css"
-  [headers.values]
-    Content-Encoding = "br"
-
-# Primary domain redirects (301)
 [[redirects]]
   from = "http://aayushhospitalmpl.com/*"
   to = "https://www.aayushhospitalmpl.com/:splat"
@@ -63,19 +33,11 @@
   status = 301
   force = true
 
-# SPA Fallback
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
 
-# Netlify Image CDN
-[[redirects]]
-  from = "/images/*"
-  to = "/.netlify/images/:splat"
-  status = 200
-
-# Primary Security Headers
 [[headers]]
   for = "/*"
   [headers.values]
@@ -97,83 +59,42 @@
       worker-src 'self' blob:;
       """
 
-# Cache Control for Static Assets
+# Cache-Control optimizations
 [[headers]]
   for = "/*.js"
   [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable, stale-while-revalidate=86400"
+    Cache-Control = "public, max-age=31536000, immutable"
 
 [[headers]]
   for = "/*.css"
   [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable, stale-while-revalidate=86400"
+    Cache-Control = "public, max-age=31536000, immutable"
 
 [[headers]]
   for = "/assets/*"
   [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable, stale-while-revalidate=86400"
-
-[[headers]]
-  for = "/static/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable, stale-while-revalidate=86400"
-
-# Cache Control for Images
-[[headers]]
-  for = "/*.jpg"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable, stale-while-revalidate=86400"
-
-[[headers]]
-  for = "/*.png"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable, stale-while-revalidate=86400"
-
-[[headers]]
-  for = "/*.webp"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable, stale-while-revalidate=86400"
-
-[[headers]]
-  for = "/*.svg"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable, stale-while-revalidate=86400"
-
-# Cache Control for Fonts
-[[headers]]
-  for = "/*.woff"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable, stale-while-revalidate=86400"
+    Cache-Control = "public, max-age=31536000, immutable"
 
 [[headers]]
   for = "/*.woff2"
   [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable, stale-while-revalidate=86400"
+    Cache-Control = "public, max-age=31536000, immutable"
 
-# Cache Control for HTML Files
+[[headers]]
+  for = "/*.webp"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
 [[headers]]
   for = "/*.html"
   [headers.values]
-    Cache-Control = "public, max-age=0, must-revalidate, stale-while-revalidate=3600"
+    Cache-Control = "public, max-age=0, must-revalidate"
 
-# Cache Control for Page Data
 [[headers]]
   for = "/page-data/*"
   [headers.values]
-    Cache-Control = "public, max-age=600, stale-while-revalidate=86400"
+    Cache-Control = "public, max-age=600"
 
-# Add compression for fonts and images
-[[headers]]
-  for = "/*.woff2"
-  [headers.values]
-    Content-Encoding = "br"
-
-[[headers]]
-  for = "/*.webp"
-  [headers.values]
-    Content-Encoding = "br"
-
-# Development-specific settings
 [dev]
   framework = "#custom"
   command = "npm run dev"
