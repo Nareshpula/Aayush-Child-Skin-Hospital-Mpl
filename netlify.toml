@@ -31,7 +31,7 @@
   package = "@netlify/plugin-lighthouse"
   [plugins.inputs]
     output_path = "reports/lighthouse.html"
-    urls = ["https://www.aayushhospitalmpl.com/"]
+    audit_url = "https://www.aayushhospitalmpl.com/"
     thresholds = { performance = 0.8 }
 
 # Brotli compression
